@@ -28,11 +28,12 @@ function getNewNumber(num) {
 
 // 사이클 구하기
 function getCycle(num) {
-  let cycle = 1;
-  let newVal = getNewNumber(num);
-  while (newVal !== num) {
+  let cycle = 0;
+  let newVal = num;
+  while (true) {
     cycle++;
     newVal = getNewNumber(newVal);
+    if (newVal === num) break;
   }
   return cycle;
 }
