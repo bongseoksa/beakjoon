@@ -1,7 +1,8 @@
 const fs = require('fs');
 // const filePath = process.platform === 'linux' ? '/dev/stdin' : './example.txt';
-const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '\\example.txt';
-let inputStr = fs.readFileSync(filePath).toString();
+const filePath =
+  process.platform === 'linux' ? '/dev/stdin' : __dirname + '\\example.txt';
+let inputStr = fs.readFileSync(filePath).toString().trim();
 
 /** 입력예제 input 값 초기화 */
 // let inputs = inputStr.split(' ');
