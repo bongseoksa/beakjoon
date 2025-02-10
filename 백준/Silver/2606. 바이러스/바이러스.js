@@ -1,40 +1,35 @@
 const fs = require('fs');
-// const filePath = process.platform === 'linux' ? '/dev/stdin' : './example.txt';
-const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '\\example.txt';
-let inputStr = fs.readFileSync(filePath).toString().trim();
+const filePath = process.platform === 'linux' ? '/dev/stdin' : './example.txt';
+// const filePath = process.platform === 'linux' ? '/dev/stdin' : __dirname + '\\example.txt';
+const inputStr = fs.readFileSync(filePath).toString().trim();
+const inputs = inputStr.split('\n');
 
-/** 입력예제 input 값 초기화 */
-let inputs = inputStr.split('\n');
-
-let total = 0;
-const computerCnt = +inputs.shift();
-const connectionCnt = +inputs.shift();
-let connections = [];
-for (let i = 0; i < computerCnt + 1; i++) connections[i] = [];
-for (let i = 0; i < connectionCnt; i++) {
-  const [x, y] = inputs[i].split(' ').map(Number);
-  connections[x].push(y);
-  connections[y].push(x);
-}
-let visited = new Array(computerCnt + 1).fill(false);
-
-/** 기능 구현 */
-function dfs(nodeIndex) {
-  visited[nodeIndex] = true;
-
-  total++;
-
-  for (let node of connections[nodeIndex]) {
-    if (visited[node]) continue;
-    dfs(node);
-  }
+const computerCnt = +inputs[0]
+const pairCnt = +inputs[1]
+const graph = [];
+const visited = Array(computerCnt+1).fill(false);
+let cnt = 0;
+for(let i=0; i<=computerCnt; i++) {
+    graph[i] = []
 }
 
-/** solution 함수 정의  */
-function solution() {
-  dfs(1);
-  console.log(total - 1);
+for(let i=0; i<pairCnt; i++) {
+    const [com1, com2] = inputs[i+2].split(' ').map(Number)
+    graph[com1].push(com2)
+    graph[com2].push(com1)
 }
 
-/** solution 함수 호출 */
-solution();
+
+/** 문제 풀이 */
+function solution(com) {
+    visited[com] = true;
+    cnt++;
+
+    for(x of graph[com]) {
+        if(!visited[x]) solution(x)
+    }
+}
+
+// 케이스별 진행
+solution(1)
+console.log(cnt-1)
